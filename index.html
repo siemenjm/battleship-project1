@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battleship</title>
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Port+Lligat+Slab&display=swap" rel="stylesheet">
+    <script src="./js/main.js" defer></script>
+</head>
+<body>
+    <div class="start-modal">
+        <h1>Battleship</h1>
+        <p class="game-description">Search the ocean for Blackbeards's fleet and once found, call down cannon-fire onto their positions until they are destroyed and claim their plunder! Beware, Blackbeard fires back!!!</p>
+        <form action="" class="input">
+            <label for="player-name">What's your pirate name?</label>
+            <input type="text" id="player-name">
+            <button type="submit" class="start-btn">Begin Searching!</button>
+        </form>
+    </div>
+    <main class="hidden">
+        <h1>Battleship</h1>
+        <p class="turn-indicator">It's your turn!</p>
+        <p class="turn-indicator hidden">It's Blackbeard's turn...</p>
+        <p class="board-indicator">You are viewing your fleet.</p>
+        <p class="board-indicator hidden">You are viewing Blackbeard's fleet.</p>
+        <div class="hud-container">
+            <div class="competitor-info-container player-container">
+                <div class="competitor-info-container-upper">
+                    <h2 class="fleet-name player-fleet-name"></h2>
+                    <div class="ship-container player-ships-container">
+                        <div class="ship player-ship ship-of-the-line">
+                            <div class="ship-health-bar"></div>
+                            <p class="ship-name">Ship of the Line</p>
+                            <p class="ship-health"></p>
+                        </div>
+                        <div class="ship player-ship frigate">
+                            <div class="ship-health-bar"></div>
+                            <p class="ship-name">Frigate</p>
+                            <p class="ship-health"></p>
+                        </div>
+                        <div class="ship player-ship galley">
+                            <div class="ship-health-bar"></div>
+                            <p class="ship-name">Galley</p>
+                            <p class="ship-health"></p>
+                        </div>
+                        <div class="ship player-ship brigantine">
+                            <div class="ship-health-bar"></div>
+                            <p class="ship-name">Brigantine</p>
+                            <p class="ship-health"></p>
+                        </div>
+                        <div class="ship player-ship sloop">
+                            <div class="ship-health-bar"></div>
+                            <p class="ship-name">Sloop</p>
+                            <p class="ship-health"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button class="fire-btn">Randomly Fire</button>
+                    <button class="toggle-gameboards-btn">Toggle Gameboards</button>
+                    <button class="reset-btn">Reset</button>
+                </div>
+            </div>
+            <div class="center-container">
+                <div class="number-coordinates">
+                    <div class="coordinate">1</div>
+                    <div class="coordinate">2</div>
+                    <div class="coordinate">3</div>
+                    <div class="coordinate">4</div>
+                    <div class="coordinate">5</div>
+                    <div class="coordinate">6</div>
+                    <div class="coordinate">7</div>
+                    <div class="coordinate">8</div>
+                    <div class="coordinate">9</div>
+                    <div class="coordinate">10</div>
+                </div>
+                <div class="letter-coordinates">
+                    <div class="coordinate">A</div>
+                    <div class="coordinate">B</div>
+                    <div class="coordinate">C</div>
+                    <div class="coordinate">D</div>
+                    <div class="coordinate">E</div>
+                    <div class="coordinate">F</div>
+                    <div class="coordinate">G</div>
+                    <div class="coordinate">H</div>
+                    <div class="coordinate">I</div>
+                    <div class="coordinate">J</div>
+                </div>
+                <div class="gameboard-container"></div>
+            </div>
+                <div class="competitor-info-container computer-container">
+                    <div class="competitor-info-container-upper">
+                        <h2 class="fleet-name computer-fleet-name"></h2>
+                        <div class="ship-container computer-ships-container">
+                            <div class="ship computer-ship ship-of-the-line">
+                                <div class="ship-health-bar"></div>
+                                <p class="ship-name">Ship of the Line</p>
+                                <p class="ship-health"></p>
+                            </div>
+                            <div class="ship computer-ship frigate">
+                                <div class="ship-health-bar"></div>
+                                <p class="ship-name">Frigate</p>
+                                <p class="ship-health"></p>
+                            </div>
+                            <div class="ship computer-ship galley">
+                                <div class="ship-health-bar"></div>
+                                <p class="ship-name">Galley</p>
+                                <p class="ship-health"></p>
+                            </div>
+                            <div class="ship computer-ship brigantine">
+                                <div class="ship-health-bar"></div>
+                                <p class="ship-name">Brigantine</p>
+                                <p class="ship-health"></p>
+                            </div>
+                            <div class="ship computer-ship sloop">
+                                <div class="ship-health-bar"></div>
+                                <p class="ship-name">Sloop</p>
+                                <p class="ship-health"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-log">
+                        <h2 class="game-log-heading">Game Log</h2>
+                        <div class="game-log-event-container"></div>
+                    </div>
+                </div>
+        </div>
+    </main>
+    <div class="winner-modal hidden">
+        <h2>Success!</h2>
+        <p class="winner-message">Winner/Loser message</p>
+        <button class="show-main-btn">See Results</button>
+        <button class="reset-btn">Replay</button>
+    </div>
+</body>
+</html>

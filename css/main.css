@@ -1,0 +1,292 @@
+:root {
+    font-size: 14px;
+
+    --desktop-width: 1440px;
+    --desktop-padding: 140px;
+    --border-radius: 1.5rem;
+
+    --body-background: linear-gradient(rgb(255, 246, 214), rgb(0,200,220));
+    --info-container-background: rgba(255, 246, 214, .8);
+    --button-background: rgb(0, 200, 220);
+    --button-background-hover: rgb(16, 233, 255);
+    --game-log-container-color: rgb(255, 246, 214);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Pirata One', cursive;
+}
+
+p, button, label, input {
+    font-family: 'Port Lligat Slab', serif;
+}
+
+h1 {
+    font-size: 4.5rem;
+    line-height: 6.5rem;
+}
+
+h2 {
+    font-size: 2.4rem;
+    line-height: 3.6rem;
+}
+
+h3 {
+    font-size: 2rem;
+    line-height: 3rem;
+}
+
+h4 {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
+
+h5 {
+    font-size: 1.3rem;
+    line-height: 2rem;
+}
+
+body {
+    background: var(--body-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.start-modal, main, .winner-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: calc(var(--desktop-width) - var(--desktop-padding) * 2);
+}
+
+.game-description, .winner-message {
+    text-align: center;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    margin-bottom: 2rem;
+    width: 66%;
+}
+
+form, .winner-modal {
+    background-color: var(--info-container-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 10px black;
+}
+
+.show-main-btn {
+    margin-bottom: 1rem;
+}
+
+label {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+input {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--button-background);
+}
+
+.turn-indicator, .board-indicator {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.hud-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.competitor-info-container, .game-log {
+    box-shadow: 0 0 10px black;
+}
+
+.competitor-info-container {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    height: 100%;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background-color: var(--info-container-background);
+}
+
+.player-container {
+    margin-right: 0.5rem;
+}
+
+.fleet-name {
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.ship {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 1fr 1fr;
+}
+
+.ship-health-bar {
+    background-color: green;
+    grid-area: 1 / 1 / span 1 / span 5;
+}
+
+.ship-name {
+    grid-area: 2 / 1 / span 1 / span 3;
+}
+
+.ship-health {
+    grid-area: 2 / 5 / span 1 / span 1;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.btn-container > * {
+    width: 75%;
+    margin-bottom: 10px;
+}
+
+.btn-container button:last-child {
+    margin-bottom: 0;
+}
+
+button {
+    background-color: var(--button-background);
+    font-size: 1.3rem;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 5px black;
+}
+
+button:hover {
+    background-color: var(--button-background-hover);
+}
+
+.btn-container, .game-log {
+    margin-bottom: 10%;
+}
+
+.game-log {
+    background-color: var(--game-log-container-color);
+    width: 100%;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.game-log > h2 {
+    font-size: 1.6rem;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+.game-log-event-container {
+    padding: 5px;
+    height: 6rem;
+    overflow: scroll;
+    background-color: rgb(250, 250, 250);
+    border: 1px rgb(190, 190, 190) solid;
+    
+}
+
+.player-log {
+    color: darkgreen;
+}
+
+.computer-log {
+    color: black;
+}
+
+.hit-log {
+    color: darkred;
+}
+
+.center-container {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: 40px 1fr;
+}
+
+.number-coordinates {
+    display: flex;
+    grid-area: 1 / 2 / span 1 / span 1;
+}
+
+.letter-coordinates {
+    display: flex;
+    flex-direction: column;
+    grid-area: 2 / 1 / span 1 / span 1;
+}
+
+.coordinate {
+    width: 40px;
+    height: 40px;
+    font-family: 'Port Lligat Slab', serif;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameboard-container {
+    grid-area: 2 / 2 / span 1 / span 1;
+}
+
+.visible-gameboard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+}
+
+.hidden-gameboard {
+    display: none;
+}
+
+.square {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+}
+
+.ship-square {
+    background-color: rgb(77, 77, 77);
+}
+
+.hit-square {
+    background-color: red;
+}
+
+.missed-square {
+    background-color: white;
+}
