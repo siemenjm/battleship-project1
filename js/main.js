@@ -9,7 +9,7 @@ const DELAY_ATTACK_DURATION = 500;
 /**
  * Game state variables -----
  */
-let isGameActive
+let isGameActive;
 let currentTurn;
 let isClickAttack;
 let delayAttackTimer;
@@ -46,12 +46,11 @@ startBtn.addEventListener('click', function(e) {
 
     let playerNameInput = document.querySelector('#player-name');
     competitors.player.name = playerNameInput.value;
+
     renderFleetNames();
 });
 
 fireBtn.addEventListener('click', attackHandler);
-
-// autoFireBtn.addEventListener();
 
 toggleGameboardsBtn.addEventListener('click', toggleGameboards);
 
@@ -109,25 +108,16 @@ class Gameboard {
         for (let ship in competitorShips) {
             let isShipPlaced = false;
             while (!isShipPlaced) {
-                // need to choose random square from current gameboard
                 let randomCoordinates = this._generateRandomCoordinates();
-                
-                // find random square in gameboard
                 let randomSquare = this._findSquare(randomCoordinates);
     
-                // ensure randomSquare is empty
                 while(!randomSquare.isEmpty) {
                     randomCoordinates = this._generateRandomCoordinates();
                     randomSquare = this._findSquare(randomCoordinates);
                 }
                 
-                // place ship once direction is found that is available
                 let availableDirections = [...DIRECTIONS];
                 isShipPlaced = this._checkAllDirections(competitorShips[ship], randomCoordinates, availableDirections);
-    
-                if (!isShipPlaced) {
-                    console.log(competitorShips[ship].name, ': WASNT PLACED DUE TO DIRECTIONS');
-                }
             }
         }
     }
@@ -149,28 +139,16 @@ class Gameboard {
 
     _checkAllDirections(ship, coordinates, availableDirections) {
         while(availableDirections.length > 0) {
-            // choose random direction to start checking for empty squares (up, down, left, right)
             let randomIndex = Math.floor(Math.random() * availableDirections.length);
             let randomDirection = availableDirections[randomIndex];
             
-            // check if there are enough squares and that the squares are empty in the chosen direction
             let isThereRoom = this._checkDirection(ship, coordinates, randomDirection);
-
-            
-            // if isThereRoom === true, we can break out of the while-loop.
             if (isThereRoom) {
-                //place ship
-                this._placeShip(ship, coordinates, randomDirection);
-
-                // console.log(ships[ship].name, ', coordinates: ', coordinates, ' randomDirection: ', randomDirection, ', isThereRoom: ', isThereRoom); 
-                
+                this._placeShip(ship, coordinates, randomDirection);                
                 return true;
-                // if isThereRoom === false, remove randomDirection from availableDirections and run loop again
             } else {
                 availableDirections.splice(randomIndex, 1);
-            }
-            
-            // console.log(ships[ship].name, ', coordinates: ', coordinates, ' randomDirection: ', randomDirection, ', isThereRoom: ', isThereRoom); 
+            }            
         }
     }
     
@@ -178,24 +156,18 @@ class Gameboard {
         let isThereRoom = true;
         for (let i = 1; i < ship.length; i++) {
             if (direction === 'up') {
-                // need to see if there are enough squares for ship to fit
                 if (coordinates[1] - (ship.length - 1) <= 0) {
                     isThereRoom = false;
                     break;
                 }
 
-                // get new coordinates in up direction
                 let newCoordinates = [coordinates[0], coordinates[1] - i];
-                
-                // find that square in the squares array
                 let currentSquare = this._findSquare(newCoordinates);
                 
-                // check if square is empty
-                // TODO: HAS NOT BEEN TESTED YET
                 if (!currentSquare.isEmpty) {
                     isThereRoom = false;
 
-                    break; // leaves for-loop
+                    break;
                 }
             } else if (direction === 'right') {
                 if (coordinates[0] + (ship.length - 1) > 10) {
@@ -252,16 +224,10 @@ class Gameboard {
         let currentSquare = this._findSquare(startingCoordinates);
         this._placeSquare(ship, currentSquare);
 
-        // go through all squares in direction up to ship length
         for (let i = 1; i < ship.length; i++) {
             if (direction === 'up') {
-                // get new coordinates in up direction
                 let newCoordinates = [startingCoordinates[0], startingCoordinates[1] - i];
-                
-                // find that square in the squares array
                 let currentSquare = this._findSquare(newCoordinates);
-
-                // place the square
                 this._placeSquare(ship, currentSquare);
 
             } else if (direction === 'right') {                
@@ -278,19 +244,13 @@ class Gameboard {
                 let newCoordinates = [startingCoordinates[0] - i, startingCoordinates[1]];
                 let currentSquare = this._findSquare(newCoordinates);
                 this._placeSquare(ship, currentSquare);
-
             }
         }
     }
 
     _placeSquare(ship, square) {
-        // change isEmpty to false for each square
         square.isEmpty = false;
-        
-        // add containedShip to each square
         square.containedShip = ship;
-
-        // add square to ship.spacesOccupied
         ship.spacesOccupied.push(square);
     }
 }
@@ -304,9 +264,6 @@ class Square {
         this.isMiss = false;
         this.containedShip = {};
     }
-
-    // add toggle method to booleans?
-    // add addShip method?
 }
 
 class Ship {
@@ -315,11 +272,8 @@ class Ship {
         this.length = length;
         this.health = length;
         this.spacesOccupied = [];
-        this.spacesHit = [];
         this.isAfloat = true;
     }
-
-    // add methods here
 }
 
 class Competitor {
@@ -336,8 +290,6 @@ class Competitor {
 function init() {
     isGameActive = true;
 
-    // build ships
-    // TODO: MIGHT NEED TO ADD OWNER TO CLASS
     ships.player = {};
     ships.player.shipOfTheLine = new Ship('Ship of the Line', 5);
     ships.player.frigate = new Ship('Frigate', 4);
@@ -368,21 +320,17 @@ function init() {
     // ships.computer.sloop = new Ship('Sloop', 1);
     // // Win Condition Testing --------------------------
 
-    // build gameboard (one each for player and computer)
     gameboards.player = new Gameboard(COLUMNS, ROWS);
     gameboards.player.createGameboard();
     gameboards.player.populateGameboard(ships.player);
+
     gameboards.computer = new Gameboard(COLUMNS, ROWS);
     gameboards.computer.createGameboard();
     gameboards.computer.populateGameboard(ships.computer);
     
-    // initialize competitors
-    // TODO: might need to add ships to class
-    // TODO: eventually remove hard-coded names
     competitors.player = new Competitor('No-beard', gameboards.player);
     competitors.computer = new Competitor('Blackbeard', gameboards.computer);
 
-    // initialize currentTurn here, can i just put "player" and put at top of init?
     currentTurn = Object.keys(competitors)[0];
 }
 
@@ -461,18 +409,12 @@ function attackHandler(e) {
 }
 
 function checkWinCondition(competitor) {
-    console.log('CHECKING FOR WIN CONDITION');
-
-    // if competitors ships are all sunk, return true
     let competitorShips = ships[competitor];
     for (let ship in competitorShips) {
         if (competitorShips[ship].isAfloat) {
             return
         }
     }
-
-    // declare winner
-    console.log('WE HAVE A WINNER');
 
     mainContainer.classList.add('hidden');
 
@@ -738,11 +680,11 @@ function convertCoordinates(coordinate) {
 }
 
 function createLogString(player, square) {
-    // "Player Name attacks coordinates. hit/miss. ship."
         let logString;
 
         let yCoordinate = convertCoordinates(square.yCoordinate);
         let coordinates = [yCoordinate, square.xCoordinate];
+
         let attackResult;
         if (square.isHit) {
             attackResult = 'Hit';
@@ -757,7 +699,6 @@ function createLogString(player, square) {
 }
 
 function findShipDOM(ship, competitor) {
-    // format ship name to match CSS
     let shipName = ship.name.toLowerCase().replace(/ /g, '-');
 
     let shipDOMNodes = document.querySelectorAll(`.${shipName}`);
@@ -773,11 +714,9 @@ function findShipDOM(ship, competitor) {
 }
 
 function findSquareDOM(square) {
-    // get DOM squares with 'data-column' attribute equal to square.xCoordinate
     let xCoordinateColumnsNodeList = document.querySelectorAll(`[data-column='${square.xCoordinate}']`);
     let xCoordinateColumns = Array.prototype.slice.call(xCoordinateColumnsNodeList);
 
-    // from the list of columns with xCoordinate, find yRows that match square.yCoordinate
     let yCoordinateRows = xCoordinateColumns.filter(function(element) {
         return element.dataset.row === square.yCoordinate.toString();
     });
@@ -829,12 +768,10 @@ function renderGameboard() {
 }
 
 function renderHits(turn, squares) {
-    // filter out hits
     let hitSquares = squares.filter(function(square) {
         return square.isHit;
     });
 
-    // get hit squares DOM nodes
     hitSquares.forEach(function(square) {
         let xyMatchingSquareDOMNodes = findSquareDOM(square);
 
@@ -842,19 +779,15 @@ function renderHits(turn, squares) {
             return element.classList.contains(`${turn}-square`);
         });
 
-        // change CSS to show hit
         currentHit[0].classList.add('hit-square');
     });
-    console.log('These squares have been hit: ', hitSquares);
 }
 
 function renderMisses(turn, squares) {
-    // filter out misses
     let missedSquares = squares.filter(function(square) {
         return square.isMiss;
     });
 
-    // get miss squares DOM nodes
     missedSquares.forEach(function(square) {
         let xyMatchingSquareDOMNodes = findSquareDOM(square);
 
@@ -862,72 +795,63 @@ function renderMisses(turn, squares) {
             return element.classList.contains(`${turn}-square`);
         });
 
-        // change CSS to show hit
         currentHit[0].classList.add('missed-square');
     });
-    console.log('These squares have been missed: ', missedSquares);
 }
 
 function renderShips() {
-    for (let competitor in competitors) {
-        // filter gameboard squares, looking for isEmpty = false;
-        let competitorSquares = competitors[competitor].gameboard;
-        let occupiedSquares = competitorSquares.squares.filter(function(square) {
-            return !square.isEmpty;
-        });
-        
-        // forEach square in occupiedSquares, change CSS class to reflect that they are occupied
-        occupiedSquares.forEach(function(square) {
-            let xyMatchingSquareDOMNodes = findSquareDOM(square); 
-
-            // filter by player vs computer
-            let occupiedSquareDiv = xyMatchingSquareDOMNodes.filter(function(element) {
-                if (competitor === 'player') {
-                    return element.classList.contains('player-square');
-                } else if (competitor === 'computer') {
-                    return element.classList.contains('computer-square');
-                }
-            });
-
-            // add ship-square class to square to change color
-            occupiedSquareDiv[0].classList.add('ship-square');
-        });
-    }
-
-    // // get player, NOT COMPUTER (want computer squares hidden)
-    // let competitor = 'player';
-    // // filter gameboard squares, looking for isEmpty = false;
-    // let competitorSquares = competitors[competitor].gameboard;
-    // let occupiedSquares = competitorSquares.squares.filter(function(square) {
-    //     return !square.isEmpty;
-    // });
-    
-    // // forEach square in occupiedSquares, change CSS class to reflect that they are occupied
-    // occupiedSquares.forEach(function(square) {
-    //     let xyMatchingSquareDOMNodes = findSquareDOM(square);
-
-    //     // filter by player vs computer
-    //     let occupiedSquareDiv = xyMatchingSquareDOMNodes.filter(function(element) {
-    //         return element.classList.contains('player-square');
+    // for (let competitor in competitors) {
+    //     let competitorSquares = competitors[competitor].gameboard;
+    //     let occupiedSquares = competitorSquares.squares.filter(function(square) {
+    //         return !square.isEmpty;
     //     });
+        
+    //     occupiedSquares.forEach(function(square) {
+    //         let xyMatchingSquareDOMNodes = findSquareDOM(square); 
 
-    //     // add ship-square class to square to change color
-    //     occupiedSquareDiv[0].classList.add('ship-square');
-    // });
+    //         let occupiedSquareDiv = xyMatchingSquareDOMNodes.filter(function(element) {
+    //             if (competitor === 'player') {
+    //                 return element.classList.contains('player-square');
+    //             } else if (competitor === 'computer') {
+    //                 return element.classList.contains('computer-square');
+    //             }
+    //         });
+
+    //         occupiedSquareDiv[0].classList.add('ship-square');
+    //     });
+    // }
+
+    // get player, NOT COMPUTER (want computer squares hidden)
+    let competitor = 'player';
+    // filter gameboard squares, looking for isEmpty = false;
+    let competitorSquares = competitors[competitor].gameboard;
+    let occupiedSquares = competitorSquares.squares.filter(function(square) {
+        return !square.isEmpty;
+    });
+    
+    // forEach square in occupiedSquares, change CSS class to reflect that they are occupied
+    occupiedSquares.forEach(function(square) {
+        let xyMatchingSquareDOMNodes = findSquareDOM(square);
+
+        // filter by player vs computer
+        let occupiedSquareDiv = xyMatchingSquareDOMNodes.filter(function(element) {
+            return element.classList.contains('player-square');
+        });
+
+        // add ship-square class to square to change color
+        occupiedSquareDiv[0].classList.add('ship-square');
+    });
 }
 
 function renderShipInfo() {
     for (let competitor in ships) {
         let competitorShips = ships[competitor];
         for (let ship in competitorShips) {
-            // find ship dom node
             let currentShip = competitorShips[ship];
             let currentShipDOMNode = findShipDOM(currentShip, competitor);
 
-            // adjust health bar CSS
             changeHealthBar(currentShip, currentShipDOMNode);
 
-            // adjust health text
             changeHealthText(currentShip, currentShipDOMNode);
         }
     }
