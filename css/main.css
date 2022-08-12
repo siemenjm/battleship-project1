@@ -149,6 +149,7 @@ input {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: 1fr 1fr;
+    margin-bottom: 10px;
 }
 
 .ship-health-bar {
@@ -261,6 +262,10 @@ button:hover {
 
 .gameboard-container {
     grid-area: 2 / 2 / span 1 / span 1;
+}
+
+.computer-gameboard-container {
+    background-color: rgba(0,0,0,.2);
 }
 
 .visible-gameboard {
